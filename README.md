@@ -21,5 +21,5 @@
   
 
 <p align="center">
-  <strong>Designed & Developed by <a href="https://github.com/TheMurad">TheMurad</a></strong>
+  <strong>Designed & Developed by <a href="https://github.com/murad-ismayil">Murad I.</a></strong>
 </p>
