@@ -1,6 +1,6 @@
 # 🎵 Audio Reactive Waves
 
-## 📖 The experience runs entirely on the client side with no backend or frameworks. Users can choose from built-in demo soundscapes or upload and drag-and-drop their own music, instantly transforming sound into motion. Designed for performance, clarity, and long-form viewing, the project focuses on true audio-visual synchronization rather than decorative animation.
+## 📖 The experience runs entirely on the client side with no backend or frameworks. Users can choose from built-in demo soundscapes or upload and drag-and-drop their own music, instantly transforming sound into motion. Designed for performance, clarity, and long-form viewing, the project focuses on true audio-visual synchronization rather than decorative animation. 
 
 ### 🔴 [Click Here for Live Demo](https://murad-ismayil.github.io/Audio-Reactive-Waves/)
 
