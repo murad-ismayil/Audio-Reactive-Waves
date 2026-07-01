@@ -5,6 +5,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Audio Reactive Waves</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
     <style>
         *,
         *::before,
@@ -19,9 +22,9 @@
             width: 100%;
             height: 100%;
             overflow: hidden;
-            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-            background: #0a0a0f;
-            color: #fff;
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            background: #09090b;
+            color: #ffffff;
             user-select: none;
             -webkit-user-select: none;
         }
@@ -43,7 +46,7 @@
             height: 100%;
             pointer-events: none;
             z-index: 1;
-            opacity: 0.035;
+            opacity: 0.02;
             background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
         }
 
@@ -55,7 +58,7 @@
             height: 100%;
             pointer-events: none;
             z-index: 2;
-            background: radial-gradient(ellipse at center, transparent 40%, rgba(0, 0, 0, 0.5) 100%);
+            background: radial-gradient(ellipse at center, transparent 50%, rgba(0, 0, 0, 0.6) 100%);
         }
 
         #start-overlay {
@@ -64,15 +67,13 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(10, 10, 15, 0.95);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
+            background: #09090b;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
             z-index: 100;
-            transition: opacity 0.6s ease, visibility 0.6s ease;
+            transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.5s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
         #start-overlay.hidden {
@@ -82,161 +83,159 @@
         }
 
         #start-overlay h1 {
-            font-size: clamp(2rem, 6vw, 3.5rem);
-            font-weight: 300;
-            letter-spacing: 0.15em;
-            margin-bottom: 0.5em;
-            background: linear-gradient(135deg, #a78bfa, #60a5fa, #34d399);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
+            font-size: clamp(2.2rem, 5vw, 3.6rem);
+            font-weight: 600;
+            letter-spacing: -0.03em;
+            margin-bottom: 0.2em;
+            color: #ffffff;
         }
 
         #start-overlay .subtitle {
-            font-size: clamp(0.9rem, 2vw, 1.1rem);
-            color: rgba(255, 255, 255, 0.6);
-            margin-bottom: 0.5em;
-            text-align: center;
-            padding: 0 1rem;
-        }
-
-        #start-overlay .drop-hint {
-            font-size: clamp(0.8rem, 1.8vw, 0.95rem);
-            color: rgba(255, 255, 255, 0.4);
-            margin-bottom: 2em;
-            text-align: center;
-            padding: 0 1rem;
+            font-size: clamp(0.9rem, 1.8vw, 1.05rem);
+            color: #a1a1aa;
+            margin-bottom: 0.4em;
+            letter-spacing: -0.01em;
         }
 
         #start-overlay .formats {
             font-size: 0.75rem;
-            color: rgba(255, 255, 255, 0.3);
-            margin-bottom: 2em;
+            color: #52525b;
+            margin-bottom: 2.5em;
         }
 
         .start-btn {
-            padding: 1em 3em;
-            font-size: 1rem;
+            padding: 0.8em 2.2em;
+            font-size: 0.95rem;
             font-weight: 500;
-            letter-spacing: 0.1em;
-            background: linear-gradient(135deg, rgba(167, 139, 250, 0.2), rgba(96, 165, 250, 0.2));
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            color: #fff;
-            border-radius: 50px;
+            background: #ffffff;
+            border: 1px solid #ffffff;
+            color: #000000;
+            border-radius: 6px;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
         .start-btn:hover {
-            background: linear-gradient(135deg, rgba(167, 139, 250, 0.4), rgba(96, 165, 250, 0.4));
-            transform: translateY(-2px);
-            box-shadow: 0 10px 40px rgba(167, 139, 250, 0.3);
+            background: #e4e4e7;
+            border-color: #e4e4e7;
+            transform: translateY(-1px);
         }
 
         #controls {
             position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 60px;
-            background: rgba(10, 10, 15, 0.7);
+            top: 1.5rem;
+            left: 50%;
+            transform: translate(-50%, -10px);
+            width: calc(100% - 3rem);
+            max-width: 960px;
+            height: 56px;
+            background: rgba(9, 9, 11, 0.75);
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 12px;
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.05);
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 0 1.5rem;
+            padding: 0 1.25rem;
             z-index: 50;
             opacity: 0;
-            transition: opacity 0.4s ease;
+            transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1), transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+            pointer-events: none;
         }
 
         #controls.visible {
             opacity: 1;
+            transform: translate(-50%, 0);
+            pointer-events: auto;
         }
 
         .control-group {
             display: flex;
             align-items: center;
-            gap: 0.8rem;
+            gap: 0.6rem;
         }
 
         .ctrl-btn {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            background: rgba(255, 255, 255, 0.05);
-            color: #fff;
+            width: 36px;
+            height: 36px;
+            border-radius: 6px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            background: rgba(255, 255, 255, 0.03);
+            color: #e4e4e7;
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: all 0.2s ease;
-            font-size: 1rem;
+            transition: all 0.15s ease;
         }
 
         .ctrl-btn:hover {
-            background: rgba(255, 255, 255, 0.15);
-            border-color: rgba(255, 255, 255, 0.3);
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(255, 255, 255, 0.15);
+            color: #ffffff;
         }
 
         .ctrl-btn.active {
-            background: rgba(167, 139, 250, 0.3);
-            border-color: rgba(167, 139, 250, 0.5);
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.2);
+            color: #ffffff;
         }
 
         .demo-btn {
-            padding: 0.5em 1em;
-            border-radius: 20px;
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            background: rgba(255, 255, 255, 0.05);
-            color: rgba(255, 255, 255, 0.7);
+            padding: 0.45em 0.9em;
+            border-radius: 6px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            background: rgba(255, 255, 255, 0.03);
+            color: #a1a1aa;
             font-size: 0.75rem;
+            font-weight: 500;
             cursor: pointer;
-            transition: all 0.2s ease;
+            transition: all 0.15s ease;
             white-space: nowrap;
         }
 
         .demo-btn:hover {
-            background: rgba(255, 255, 255, 0.1);
-            color: #fff;
+            background: rgba(255, 255, 255, 0.08);
+            color: #ffffff;
+            border-color: rgba(255, 255, 255, 0.15);
         }
 
         .demo-btn.active {
-            background: linear-gradient(135deg, rgba(167, 139, 250, 0.3), rgba(96, 165, 250, 0.3));
-            border-color: rgba(167, 139, 250, 0.5);
-            color: #fff;
+            background: #ffffff;
+            border-color: #ffffff;
+            color: #000000;
         }
 
         .slider-container {
             display: flex;
             align-items: center;
-            gap: 0.5rem;
+            gap: 0.4rem;
         }
 
         .slider-container label {
-            font-size: 0.7rem;
-            color: rgba(255, 255, 255, 0.5);
+            font-size: 0.65rem;
+            color: #71717a;
             text-transform: uppercase;
             letter-spacing: 0.05em;
+            font-weight: 500;
         }
 
         input[type="range"] {
             -webkit-appearance: none;
-            width: 80px;
-            height: 4px;
-            background: rgba(255, 255, 255, 0.15);
-            border-radius: 2px;
+            width: 70px;
+            height: 3px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 1.5px;
             cursor: pointer;
         }
 
         input[type="range"]::-webkit-slider-thumb {
             -webkit-appearance: none;
-            width: 14px;
-            height: 14px;
-            background: #fff;
+            width: 10px;
+            height: 10px;
+            background: #ffffff;
             border-radius: 50%;
             cursor: pointer;
             transition: transform 0.1s ease;
@@ -247,19 +246,20 @@
         }
 
         .upload-btn {
-            padding: 0.5em 1em;
-            border-radius: 20px;
-            border: 1px solid rgba(52, 211, 153, 0.4);
-            background: rgba(52, 211, 153, 0.1);
-            color: rgba(52, 211, 153, 0.9);
+            padding: 0.45em 0.9em;
+            border-radius: 6px;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            background: rgba(255, 255, 255, 0.05);
+            color: #ffffff;
             font-size: 0.75rem;
+            font-weight: 500;
             cursor: pointer;
-            transition: all 0.2s ease;
+            transition: all 0.15s ease;
         }
 
         .upload-btn:hover {
-            background: rgba(52, 211, 153, 0.2);
-            border-color: rgba(52, 211, 153, 0.6);
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.25);
         }
 
         #file-input {
@@ -267,13 +267,8 @@
         }
 
         .hint-label {
-            font-size: 0.7rem;
-            color: rgba(167, 139, 250, 0.9);
-            padding: 0.3em 0.8em;
-            background: rgba(167, 139, 250, 0.15);
-            border: 1px solid rgba(167, 139, 250, 0.3);
-            border-radius: 15px;
-            animation: pulse-hint 2s ease-in-out infinite;
+            font-size: 0.75rem;
+            color: #52525b;
             white-space: nowrap;
         }
 
@@ -281,31 +276,19 @@
             display: none;
         }
 
-        @keyframes pulse-hint {
-
-            0%,
-            100% {
-                opacity: 1;
-            }
-
-            50% {
-                opacity: 0.6;
-            }
-        }
-
         #info-bar {
             position: fixed;
             bottom: 1.5rem;
             left: 50%;
             transform: translateX(-50%);
-            background: rgba(10, 10, 15, 0.6);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
+            background: rgba(9, 9, 11, 0.75);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
             padding: 0.6em 1.5em;
-            border-radius: 30px;
-            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.06);
             font-size: 0.8rem;
-            color: rgba(255, 255, 255, 0.6);
+            color: #a1a1aa;
             z-index: 50;
             opacity: 0;
             transition: opacity 0.4s ease;
@@ -317,90 +300,15 @@
         }
 
         #now-playing {
-            color: rgba(255, 255, 255, 0.9);
+            color: #ffffff;
             font-weight: 500;
         }
 
         .drop-area-hint {
             display: block;
             font-size: 0.7rem;
-            color: rgba(255, 255, 255, 0.4);
+            color: #52525b;
             margin-top: 0.3em;
-        }
-
-        #signal-meter {
-            position: fixed;
-            bottom: 1.5rem;
-            right: 1.5rem;
-            background: rgba(10, 10, 15, 0.6);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            padding: 0.8em 1em;
-            border-radius: 12px;
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            z-index: 50;
-            opacity: 0;
-            transition: opacity 0.4s ease;
-            min-width: 120px;
-        }
-
-        #signal-meter.visible {
-            opacity: 1;
-        }
-
-        .meter-label {
-            font-size: 0.6rem;
-            color: rgba(255, 255, 255, 0.4);
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-            margin-bottom: 0.5em;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .meter-row {
-            display: flex;
-            align-items: center;
-            margin-bottom: 0.3em;
-            gap: 0.5em;
-        }
-
-        .meter-row:last-child {
-            margin-bottom: 0;
-        }
-
-        .meter-name {
-            font-size: 0.6rem;
-            color: rgba(255, 255, 255, 0.5);
-            width: 30px;
-            text-transform: uppercase;
-        }
-
-        .meter-bar {
-            flex: 1;
-            height: 4px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 2px;
-            overflow: hidden;
-        }
-
-        .meter-fill {
-            height: 100%;
-            border-radius: 2px;
-            transition: width 0.05s ease-out;
-        }
-
-        .meter-fill.bass {
-            background: linear-gradient(90deg, #a78bfa, #7c3aed);
-        }
-
-        .meter-fill.mid {
-            background: linear-gradient(90deg, #60a5fa, #3b82f6);
-        }
-
-        .meter-fill.high {
-            background: linear-gradient(90deg, #34d399, #10b981);
         }
 
         #drag-overlay {
@@ -409,8 +317,8 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(10, 10, 15, 0.9);
-            backdrop-filter: blur(10px);
+            background: rgba(9, 9, 11, 0.9);
+            backdrop-filter: blur(8px);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -418,73 +326,56 @@
             opacity: 0;
             visibility: hidden;
             transition: opacity 0.3s ease, visibility 0.3s ease;
-            border: 3px dashed rgba(167, 139, 250, 0.4);
+            border: 2px dashed rgba(255, 255, 255, 0.15);
         }
 
         #drag-overlay.visible {
             opacity: 1;
             visibility: visible;
-            border-color: rgba(167, 139, 250, 0.8);
-            animation: pulse-border 1s infinite;
-        }
-
-        @keyframes pulse-border {
-
-            0%,
-            100% {
-                border-color: rgba(167, 139, 250, 0.4);
-            }
-
-            50% {
-                border-color: rgba(167, 139, 250, 0.8);
-            }
         }
 
         #drag-overlay .drag-content {
             text-align: center;
-            color: rgba(255, 255, 255, 0.8);
+            color: #e4e4e7;
         }
 
         #drag-overlay .drag-icon {
-            font-size: 4rem;
+            font-size: 3rem;
             margin-bottom: 1rem;
             opacity: 0.8;
-            animation: bounce 0.6s ease infinite;
-        }
-
-        @keyframes bounce {
-
-            0%,
-            100% {
-                transform: translateY(0);
-            }
-
-            50% {
-                transform: translateY(-10px);
-            }
         }
 
         #drag-overlay p {
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             margin-bottom: 0.5rem;
+            font-weight: 500;
         }
 
         #drag-overlay .formats-hint {
             font-size: 0.8rem;
-            color: rgba(255, 255, 255, 0.5);
+            color: #71717a;
         }
 
-        @media (max-width: 768px) {
+        @media (max-width: 1200px) {
+            .hint-label {
+                display: none;
+            }
+        }
+
+        @media (max-width: 1024px) {
             #controls {
                 height: auto;
-                flex-wrap: wrap;
-                padding: 0.8rem;
-                gap: 0.5rem;
+                flex-direction: column;
+                gap: 0.8rem;
+                padding: 1rem;
+                top: 1rem;
+                width: calc(100% - 2rem);
             }
 
             .control-group {
-                flex-wrap: wrap;
+                width: 100%;
                 justify-content: center;
+                flex-wrap: wrap;
             }
 
             .demo-btn {
@@ -499,13 +390,6 @@
             .slider-container label {
                 display: none;
             }
-
-            #signal-meter {
-                bottom: auto;
-                top: 70px;
-                right: 0.5rem;
-                min-width: 100px;
-            }
         }
     </style>
 </head>
@@ -518,22 +402,25 @@
 
     <div id="start-overlay">
         <h1>AUDIO REACTIVE WAVES</h1>
-        <p class="subtitle">Made by TheMurad</p>
+        <p class="subtitle">Made by Murad I.</p>
         <p class="formats">Supported: MP3, WAV, OGG</p>
-        <button class="start-btn" id="start-btn">▶ START EXPERIENCE</button>
+        <button class="start-btn" id="start-btn">Start Experience</button>
     </div>
 
     <div id="controls">
         <div class="control-group">
-            <button class="ctrl-btn" id="play-btn" title="Play/Pause">▶</button>
-            <span class="hint-label" id="demo-hint">Select a demo track →</span>
+            <button class="ctrl-btn" id="play-btn" title="Play/Pause">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                    <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                </svg>
+            </button>
+            <span class="hint-label" id="demo-hint">Select a demo</span>
             <button class="demo-btn" data-demo="1">Demo 1</button>
             <button class="demo-btn" data-demo="2">Demo 2</button>
-            <button class="demo-btn" data-demo="3">Demo 3</button>
         </div>
         <div class="control-group">
-            <button class="upload-btn" id="upload-btn">⬆ Upload Audio</button>
-            <span class="hint-label" id="upload-hint">← Or upload your own</span>
+            <button class="upload-btn" id="upload-btn">Upload Audio</button>
+            <span class="hint-label" id="upload-hint">Or upload audio</span>
             <input type="file" id="file-input" accept="audio/*">
             <div class="slider-container">
                 <label>Vol</label>
@@ -543,31 +430,14 @@
                 <label>React</label>
                 <input type="range" id="sensitivity-slider" min="1" max="100" value="50">
             </div>
-            <button class="ctrl-btn" id="mute-btn" title="Mute">♪</button>
-        </div>
-    </div>
-
-    <div id="signal-meter">
-        <div class="meter-label">
-            <span>Input Level</span>
-        </div>
-        <div class="meter-row">
-            <span class="meter-name">Bass</span>
-            <div class="meter-bar">
-                <div class="meter-fill bass" id="bass-meter"></div>
-            </div>
-        </div>
-        <div class="meter-row">
-            <span class="meter-name">Mid</span>
-            <div class="meter-bar">
-                <div class="meter-fill mid" id="mid-meter"></div>
-            </div>
-        </div>
-        <div class="meter-row">
-            <span class="meter-name">High</span>
-            <div class="meter-bar">
-                <div class="meter-fill high" id="high-meter"></div>
-            </div>
+            <button class="ctrl-btn" id="mute-btn" title="Mute">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+                    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+                    <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+                </svg>
+            </button>
         </div>
     </div>
 
@@ -595,19 +465,15 @@
                 PARTICLE_COUNT: 60,
                 FFT_SIZE: 1024,
                 SMOOTHING: 0.85,
-
                 BASS_HZ: [20, 140],
                 MID_HZ: [140, 2000],
                 HIGH_HZ: [2000, 12000],
-
                 IDLE_AMPLITUDE: 8,
                 IDLE_SPEED: 0.02,
-
                 AMP_BOOST: 120,
                 SPEED_BOOST: 1.5,
                 DETAIL_BOOST: 0.5,
                 SPARKLE_BOOST: 3,
-
                 NOISE_GATE: 0.02
             };
 
@@ -621,20 +487,18 @@
                 audioStarted: false,
                 audioReady: false,
                 userFileUrl: null,
-
                 rawBass: 0,
                 rawMid: 0,
                 rawHigh: 0,
-
                 bass: 0,
                 mid: 0,
                 high: 0,
-
+                peakBass: 0.1,
+                peakMid: 0.1,
+                peakHigh: 0.1,
                 hueOffset: 0,
-
                 time: 0,
                 lastTime: 0,
-
                 bassBins: [0, 0],
                 midBins: [0, 0],
                 highBins: [0, 0]
@@ -645,21 +509,14 @@
             const startOverlay = document.getElementById('start-overlay');
             const controls = document.getElementById('controls');
             const infoBar = document.getElementById('info-bar');
-            const signalMeter = document.getElementById('signal-meter');
             const dragOverlay = document.getElementById('drag-overlay');
             const nowPlaying = document.getElementById('now-playing');
             const audioElement = document.getElementById('audio-element');
-
-            const bassMeter = document.getElementById('bass-meter');
-            const midMeter = document.getElementById('mid-meter');
-            const highMeter = document.getElementById('high-meter');
 
             let audioCtx = null;
             let analyser = null;
             let gainNode = null;
             let frequencyData = null;
-
-            let demoNodes = [];
 
             function resizeCanvas() {
                 const dpr = Math.min(window.devicePixelRatio || 1, 2);
@@ -671,230 +528,60 @@
             }
 
             function noise(x, y, z) {
-                const X = Math.floor(x) & 255;
-                const Y = Math.floor(y) & 255;
-                const Z = Math.floor(z) & 255;
-                x -= Math.floor(x);
-                y -= Math.floor(y);
-                z -= Math.floor(z);
+                const X = Math.floor(x) & 255; const Y = Math.floor(y) & 255; const Z = Math.floor(z) & 255;
+                x -= Math.floor(x); y -= Math.floor(y); z -= Math.floor(z);
                 const u = fade(x), v = fade(y), w = fade(z);
                 const A = p[X] + Y, AA = p[A] + Z, AB = p[A + 1] + Z;
                 const B = p[X + 1] + Y, BA = p[B] + Z, BB = p[B + 1] + Z;
-                return lerp(w, lerp(v, lerp(u, grad(p[AA], x, y, z), grad(p[BA], x - 1, y, z)),
-                    lerp(u, grad(p[AB], x, y - 1, z), grad(p[BB], x - 1, y - 1, z))),
-                    lerp(v, lerp(u, grad(p[AA + 1], x, y, z - 1), grad(p[BA + 1], x - 1, y, z - 1)),
-                        lerp(u, grad(p[AB + 1], x, y - 1, z - 1), grad(p[BB + 1], x - 1, y - 1, z - 1))));
+                return lerp(w, lerp(v, lerp(u, grad(p[AA], x, y, z), grad(p[BA], x - 1, y, z)), lerp(u, grad(p[AB], x, y - 1, z), grad(p[BB], x - 1, y - 1, z))), lerp(v, lerp(u, grad(p[AA + 1], x, y, z - 1), grad(p[BA + 1], x - 1, y, z - 1)), lerp(u, grad(p[AB + 1], x, y - 1, z - 1), grad(p[BB + 1], x - 1, y - 1, z - 1))));
             }
-
             function fade(t) { return t * t * t * (t * (t * 6 - 15) + 10); }
             function lerp(t, a, b) { return a + t * (b - a); }
             function grad(hash, x, y, z) {
-                const h = hash & 15;
-                const u = h < 8 ? x : y;
-                const v = h < 4 ? y : h === 12 || h === 14 ? x : z;
+                const h = hash & 15; const u = h < 8 ? x : y; const v = h < 4 ? y : h === 12 || h === 14 ? x : z;
                 return ((h & 1) === 0 ? u : -u) + ((h & 2) === 0 ? v : -v);
             }
-
             const p = new Array(512);
-            const permutation = [151, 160, 137, 91, 90, 15, 131, 13, 201, 95, 96, 53, 194, 233, 7, 225, 140, 36, 103, 30, 69,
-                142, 8, 99, 37, 240, 21, 10, 23, 190, 6, 148, 247, 120, 234, 75, 0, 26, 197, 62, 94, 252, 219, 203, 117, 35, 11, 32,
-                57, 177, 33, 88, 237, 149, 56, 87, 174, 20, 125, 136, 171, 168, 68, 175, 74, 165, 71, 134, 139, 48, 27, 166, 77,
-                146, 158, 231, 83, 111, 229, 122, 60, 211, 133, 230, 220, 105, 92, 41, 55, 46, 245, 40, 244, 102, 143, 54, 65, 25,
-                63, 161, 1, 216, 80, 73, 209, 76, 132, 187, 208, 89, 18, 169, 200, 196, 135, 130, 116, 188, 159, 86, 164, 100, 109,
-                198, 173, 186, 3, 64, 52, 217, 226, 250, 124, 123, 5, 202, 38, 147, 118, 126, 255, 82, 85, 212, 207, 206, 59, 227,
-                47, 16, 58, 17, 182, 189, 28, 42, 223, 183, 170, 213, 119, 248, 152, 2, 44, 154, 163, 70, 221, 153, 101, 155, 167,
-                43, 172, 9, 129, 22, 39, 253, 19, 98, 108, 110, 79, 113, 224, 232, 178, 185, 112, 104, 218, 246, 97, 228, 251, 34,
-                242, 193, 238, 210, 144, 12, 191, 179, 162, 241, 81, 51, 145, 235, 249, 14, 239, 107, 49, 192, 214, 31, 181, 199,
-                106, 157, 184, 84, 204, 176, 115, 121, 50, 45, 127, 4, 150, 254, 138, 236, 205, 93, 222, 114, 67, 29, 24, 72, 243,
-                141, 128, 195, 78, 66, 215, 61, 156, 180];
+            const permutation = [151, 160, 137, 91, 90, 15, 131, 13, 201, 95, 96, 53, 194, 233, 7, 225, 140, 36, 103, 30, 69, 142, 8, 99, 37, 240, 21, 10, 23, 190, 6, 148, 247, 120, 234, 75, 0, 26, 197, 62, 94, 252, 219, 203, 117, 35, 11, 32, 57, 177, 33, 88, 237, 149, 56, 87, 174, 20, 125, 136, 171, 168, 68, 175, 74, 165, 71, 134, 139, 48, 27, 166, 77, 146, 158, 231, 83, 111, 229, 122, 60, 211, 133, 230, 220, 105, 92, 41, 55, 46, 245, 40, 244, 102, 143, 54, 65, 25, 63, 161, 1, 216, 80, 73, 209, 76, 132, 187, 208, 89, 18, 169, 200, 196, 135, 130, 116, 188, 159, 86, 164, 100, 109, 198, 173, 186, 3, 64, 52, 217, 226, 250, 124, 123, 5, 202, 38, 147, 118, 126, 255, 82, 85, 212, 207, 206, 59, 227, 47, 16, 58, 17, 182, 189, 28, 42, 223, 183, 170, 213, 119, 248, 152, 2, 44, 154, 163, 70, 221, 153, 101, 155, 167, 43, 172, 9, 129, 22, 39, 253, 19, 98, 108, 110, 79, 113, 224, 232, 178, 185, 112, 104, 218, 246, 97, 228, 251, 34, 242, 193, 238, 210, 144, 12, 191, 179, 162, 241, 81, 51, 145, 235, 249, 14, 239, 107, 49, 192, 214, 31, 181, 199, 106, 157, 184, 84, 204, 176, 115, 121, 50, 45, 127, 4, 150, 254, 138, 236, 205, 93, 222, 114, 67, 29, 24, 72, 243, 141, 128, 195, 78, 66, 215, 61, 156, 180];
             for (let i = 0; i < 256; i++) p[256 + i] = p[i] = permutation[i];
 
             function initAudio() {
                 if (audioCtx) return;
-
                 audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-
-                const sampleRate = audioCtx.sampleRate;
-                const binSize = sampleRate / CONFIG.FFT_SIZE;
-
-                state.bassBins = [
-                    Math.floor(CONFIG.BASS_HZ[0] / binSize),
-                    Math.floor(CONFIG.BASS_HZ[1] / binSize)
-                ];
-                state.midBins = [
-                    Math.floor(CONFIG.MID_HZ[0] / binSize),
-                    Math.floor(CONFIG.MID_HZ[1] / binSize)
-                ];
-                state.highBins = [
-                    Math.floor(CONFIG.HIGH_HZ[0] / binSize),
-                    Math.min(Math.floor(CONFIG.HIGH_HZ[1] / binSize), CONFIG.FFT_SIZE / 2 - 1)
-                ];
-
+                const binSize = audioCtx.sampleRate / CONFIG.FFT_SIZE;
+                state.bassBins = [Math.floor(CONFIG.BASS_HZ[0] / binSize), Math.floor(CONFIG.BASS_HZ[1] / binSize)];
+                state.midBins = [Math.floor(CONFIG.MID_HZ[0] / binSize), Math.floor(CONFIG.MID_HZ[1] / binSize)];
+                state.highBins = [Math.floor(CONFIG.HIGH_HZ[0] / binSize), Math.min(Math.floor(CONFIG.HIGH_HZ[1] / binSize), CONFIG.FFT_SIZE / 2 - 1)];
                 analyser = audioCtx.createAnalyser();
                 analyser.fftSize = CONFIG.FFT_SIZE;
                 analyser.smoothingTimeConstant = CONFIG.SMOOTHING;
-
                 gainNode = audioCtx.createGain();
                 gainNode.gain.value = state.volume;
-
                 gainNode.connect(analyser);
                 analyser.connect(audioCtx.destination);
-
                 frequencyData = new Uint8Array(analyser.frequencyBinCount);
             }
 
-            function stopDemoSynth() {
-                demoNodes.forEach(node => {
-                    try {
-                        if (node.stop) node.stop();
-                        if (node.disconnect) node.disconnect();
-                    } catch (e) { }
-                });
-                demoNodes = [];
-            }
+            const DEMO_TRACKS = {
+                1: { name: 'Viper (Demo 1)', url: 'https://mdn.github.io/webaudio-examples/audio-analyser/viper.mp3' },
+                2: { name: 'Outfoxing (Demo 2)', url: 'https://mdn.github.io/webaudio-examples/output-timestamp/outfoxing.mp3' }
+            };
 
-            function createDemoSynth(demoNum) {
-                stopDemoSynth();
-                if (!audioCtx) return;
-
-                const now = audioCtx.currentTime;
-
-                const configs = {
-                    1: {
-                        osc1: { type: 'sine', freq: 55, detune: -5 },
-                        osc2: { type: 'triangle', freq: 110, detune: 7 },
-                        osc3: { type: 'sine', freq: 165, detune: -3 },
-                        lfoFreq: 0.08,
-                        filterFreq: 400,
-                        filterQ: 2,
-                        gains: [0.25, 0.15, 0.1]
-                    },
-                    2: {
-                        osc1: { type: 'sawtooth', freq: 220, detune: 0 },
-                        osc2: { type: 'square', freq: 330, detune: 5 },
-                        osc3: { type: 'triangle', freq: 440, detune: -5 },
-                        lfoFreq: 0.15,
-                        filterFreq: 1200,
-                        filterQ: 8,
-                        gains: [0.12, 0.15, 0.12]
-                    },
-                    3: {
-                        osc1: { type: 'sawtooth', freq: 40, detune: -10 },
-                        osc2: { type: 'square', freq: 80, detune: 10 },
-                        osc3: { type: 'triangle', freq: 120, detune: 0 },
-                        lfoFreq: 0.25,
-                        filterFreq: 300,
-                        filterQ: 5,
-                        gains: [0.3, 0.2, 0.1]
-                    }
-                };
-
-                const cfg = configs[demoNum];
-
-                const osc1 = audioCtx.createOscillator();
-                osc1.type = cfg.osc1.type;
-                osc1.frequency.value = cfg.osc1.freq;
-                osc1.detune.value = cfg.osc1.detune;
-
-                const osc2 = audioCtx.createOscillator();
-                osc2.type = cfg.osc2.type;
-                osc2.frequency.value = cfg.osc2.freq;
-                osc2.detune.value = cfg.osc2.detune;
-
-                const osc3 = audioCtx.createOscillator();
-                osc3.type = cfg.osc3.type;
-                osc3.frequency.value = cfg.osc3.freq;
-                osc3.detune.value = cfg.osc3.detune;
-
-                const lfo = audioCtx.createOscillator();
-                lfo.type = 'sine';
-                lfo.frequency.value = cfg.lfoFreq;
-
-                const lfoGain = audioCtx.createGain();
-                lfoGain.gain.value = 30;
-
-                const ampLfo = audioCtx.createOscillator();
-                ampLfo.type = 'sine';
-                ampLfo.frequency.value = cfg.lfoFreq * 0.5;
-
-                const ampLfoGain = audioCtx.createGain();
-                ampLfoGain.gain.value = 0.3;
-
-                lfo.connect(lfoGain);
-                lfoGain.connect(osc1.frequency);
-                lfoGain.connect(osc2.frequency);
-
-                const filter = audioCtx.createBiquadFilter();
-                filter.type = 'lowpass';
-                filter.frequency.value = cfg.filterFreq;
-                filter.Q.value = cfg.filterQ;
-
-                const filterLfo = audioCtx.createOscillator();
-                filterLfo.type = 'sine';
-                filterLfo.frequency.value = cfg.lfoFreq * 2;
-
-                const filterLfoGain = audioCtx.createGain();
-                filterLfoGain.gain.value = cfg.filterFreq * 0.4;
-
-                filterLfo.connect(filterLfoGain);
-                filterLfoGain.connect(filter.frequency);
-
-                const mix1 = audioCtx.createGain();
-                mix1.gain.value = cfg.gains[0];
-                const mix2 = audioCtx.createGain();
-                mix2.gain.value = cfg.gains[1];
-                const mix3 = audioCtx.createGain();
-                mix3.gain.value = cfg.gains[2];
-
-                ampLfo.connect(ampLfoGain);
-                ampLfoGain.connect(mix1.gain);
-                ampLfoGain.connect(mix2.gain);
-
-                osc1.connect(mix1);
-                osc2.connect(mix2);
-                osc3.connect(mix3);
-
-                mix1.connect(filter);
-                mix2.connect(filter);
-                mix3.connect(filter);
-
-                filter.connect(gainNode);
-
-                gainNode.gain.setValueAtTime(0, now);
-                gainNode.gain.linearRampToValueAtTime(state.volume, now + 1.5);
-
-                osc1.start(now);
-                osc2.start(now);
-                osc3.start(now);
-                lfo.start(now);
-                filterLfo.start(now);
-                ampLfo.start(now);
-
-                demoNodes = [osc1, osc2, osc3, lfo, filterLfo, ampLfo, mix1, mix2, mix3, filter, lfoGain, filterLfoGain, ampLfoGain];
-            }
+            function stopDemoSynth() { }
 
             function loadUserAudio(file) {
                 hideHints();
-
-                if (state.userFileUrl) {
-                    URL.revokeObjectURL(state.userFileUrl);
-                }
-
+                if (state.userFileUrl) URL.revokeObjectURL(state.userFileUrl);
                 state.userFileUrl = URL.createObjectURL(file);
                 audioElement.src = state.userFileUrl;
-
-                state.isUserAudio = true;
-                state.currentDemo = null;
+                state.isUserAudio = true; state.currentDemo = null;
                 nowPlaying.textContent = file.name;
-
                 document.querySelectorAll('.demo-btn').forEach(btn => btn.classList.remove('active'));
-
                 if (!audioElement._sourceNode) {
                     const source = audioCtx.createMediaElementSource(audioElement);
                     source.connect(gainNode);
                     audioElement._sourceNode = source;
                 }
-
                 stopDemoSynth();
                 audioElement.play();
                 state.isPlaying = true;
@@ -903,368 +590,116 @@
 
             function analyzeAudio() {
                 if (!analyser || !frequencyData) return;
-
                 analyser.getByteFrequencyData(frequencyData);
-
                 let bassSum = 0, midSum = 0, highSum = 0;
-                let bassCount = 0, midCount = 0, highCount = 0;
-
-                for (let i = state.bassBins[0]; i <= state.bassBins[1] && i < frequencyData.length; i++) {
-                    bassSum += frequencyData[i];
-                    bassCount++;
-                }
-
-                for (let i = state.midBins[0]; i <= state.midBins[1] && i < frequencyData.length; i++) {
-                    midSum += frequencyData[i];
-                    midCount++;
-                }
-
-                for (let i = state.highBins[0]; i <= state.highBins[1] && i < frequencyData.length; i++) {
-                    highSum += frequencyData[i];
-                    highCount++;
-                }
-
-                const rawBass = bassCount > 0 ? (bassSum / bassCount / 255) : 0;
-                const rawMid = midCount > 0 ? (midSum / midCount / 255) : 0;
-                const rawHigh = highCount > 0 ? (highSum / highCount / 255) : 0;
-
-                const sens = state.sensitivity * 2.5;
-
-                const gatedBass = rawBass < CONFIG.NOISE_GATE ? 0 : rawBass * sens;
-                const gatedMid = rawMid < CONFIG.NOISE_GATE ? 0 : rawMid * sens;
-                const gatedHigh = rawHigh < CONFIG.NOISE_GATE ? 0 : rawHigh * sens;
-
-                state.rawBass = Math.min(1, gatedBass);
-                state.rawMid = Math.min(1, gatedMid);
-                state.rawHigh = Math.min(1, gatedHigh);
-
-                const attackSpeed = 0.3;
-                const releaseSpeed = 0.08;
-
-                state.bass = gatedBass > state.bass
-                    ? lerp(attackSpeed, state.bass, gatedBass)
-                    : lerp(releaseSpeed, state.bass, gatedBass);
-
-                state.mid = gatedMid > state.mid
-                    ? lerp(attackSpeed, state.mid, gatedMid)
-                    : lerp(releaseSpeed, state.mid, gatedMid);
-
-                state.high = gatedHigh > state.high
-                    ? lerp(attackSpeed, state.high, gatedHigh)
-                    : lerp(releaseSpeed, state.high, gatedHigh);
-
-                state.bass = Math.min(1, Math.max(0, state.bass));
-                state.mid = Math.min(1, Math.max(0, state.mid));
-                state.high = Math.min(1, Math.max(0, state.high));
-            }
-
-            function updateMeters() {
-                bassMeter.style.width = (state.rawBass * 100) + '%';
-                midMeter.style.width = (state.rawMid * 100) + '%';
-                highMeter.style.width = (state.rawHigh * 100) + '%';
+                let bC = 0, mC = 0, hC = 0;
+                for (let i = state.bassBins[0]; i <= state.bassBins[1]; i++) { bassSum += frequencyData[i]; bC++; }
+                for (let i = state.midBins[0]; i <= state.midBins[1]; i++) { midSum += frequencyData[i]; mC++; }
+                for (let i = state.highBins[0]; i <= state.highBins[1]; i++) { highSum += frequencyData[i]; hC++; }
+                const rawBass = bC > 0 ? (bassSum / bC / 255) : 0;
+                const rawMid = mC > 0 ? (midSum / mC / 255) : 0;
+                const rawHigh = hC > 0 ? (highSum / hC / 255) : 0;
+                state.peakBass = Math.max(state.peakBass * 0.995, rawBass, 0.05);
+                state.peakMid = Math.max(state.peakMid * 0.995, rawMid, 0.05);
+                state.peakHigh = Math.max(state.peakHigh * 0.995, rawHigh, 0.05);
+                const normBass = rawBass / state.peakBass, normMid = rawMid / state.peakMid, normHigh = rawHigh / state.peakHigh;
+                const sens = state.sensitivity * 1.5;
+                const gatedBass = normBass < CONFIG.NOISE_GATE ? 0 : normBass * sens;
+                const gatedMid = normMid < CONFIG.NOISE_GATE ? 0 : normMid * sens;
+                const gatedHigh = normHigh < CONFIG.NOISE_GATE ? 0 : normHigh * sens;
+                state.rawBass = Math.min(1, gatedBass); state.rawMid = Math.min(1, gatedMid); state.rawHigh = Math.min(1, gatedHigh);
+                state.bass = gatedBass > state.bass ? lerp(0.35, state.bass, gatedBass) : lerp(0.12, state.bass, gatedBass);
+                state.mid = gatedMid > state.mid ? lerp(0.25, state.mid, gatedMid) : lerp(0.1, state.mid, gatedMid);
+                state.high = gatedHigh > state.high ? lerp(0.45, state.high, gatedHigh) : lerp(0.18, state.high, gatedHigh);
             }
 
             const particles = [];
-
             class Particle {
-                constructor() {
-                    this.reset();
-                }
-
-                reset() {
-                    this.x = Math.random() * window.innerWidth;
-                    this.y = Math.random() * window.innerHeight;
-                    this.size = Math.random() * 2 + 0.5;
-                    this.speedX = (Math.random() - 0.5) * 0.3;
-                    this.speedY = (Math.random() - 0.5) * 0.3;
-                    this.life = Math.random() * 100 + 50;
-                    this.maxLife = this.life;
-                    this.hue = Math.random() * 60 - 30;
-                }
-
-                update(high) {
-                    const movement = high * 2;
-                    this.x += this.speedX * movement;
-                    this.y += this.speedY - high * 0.8;
-                    this.life--;
-
-                    if (this.life <= 0 || this.x < 0 || this.x > window.innerWidth ||
-                        this.y < 0 || this.y > window.innerHeight) {
-                        this.reset();
-                        this.y = window.innerHeight + 10;
-                    }
-                }
-
-                draw(ctx, baseHue, alpha) {
-                    const lifeRatio = this.life / this.maxLife;
-                    const opacity = lifeRatio * alpha * 0.6;
-                    const hue = (baseHue + this.hue) % 360;
-
-                    ctx.beginPath();
-                    ctx.arc(this.x, this.y, this.size * (1 + state.high * 0.5), 0, Math.PI * 2);
-                    ctx.fillStyle = `hsla(${hue}, 80%, 70%, ${opacity})`;
-                    ctx.fill();
-                }
+                constructor() { this.reset(); }
+                reset() { this.x = Math.random() * window.innerWidth; this.y = Math.random() * window.innerHeight; this.size = Math.random() * 2 + 0.5; this.speedX = (Math.random() - 0.5) * 0.3; this.speedY = (Math.random() - 0.5) * 0.3; this.life = Math.random() * 100 + 50; this.maxLife = this.life; this.hue = Math.random() * 60 - 30; }
+                update(high) { this.x += this.speedX * high * 2; this.y += this.speedY - high * 0.8; this.life--; if (this.life <= 0 || this.x < 0 || this.x > window.innerWidth || this.y < 0 || this.y > window.innerHeight) { this.reset(); this.y = window.innerHeight + 10; } }
+                draw(ctx, baseHue, alpha) { const opacity = (this.life / this.maxLife) * alpha * 0.6; ctx.beginPath(); ctx.arc(this.x, this.y, this.size * (1 + state.high * 0.5), 0, Math.PI * 2); ctx.fillStyle = `hsla(${(baseHue + this.hue) % 360}, 80%, 70%, ${opacity})`; ctx.fill(); }
             }
-
-            for (let i = 0; i < CONFIG.PARTICLE_COUNT; i++) {
-                particles.push(new Particle());
-            }
+            for (let i = 0; i < CONFIG.PARTICLE_COUNT; i++) particles.push(new Particle());
 
             function drawWaves() {
-                const w = window.innerWidth;
-                const h = window.innerHeight;
-                const time = state.time;
-
+                const w = window.innerWidth, h = window.innerHeight;
                 state.hueOffset += 0.05 + state.mid * 0.3;
-
-                const gradient = ctx.createLinearGradient(0, 0, 0, h);
                 const baseHue = (state.hueOffset * 0.3) % 360;
-                gradient.addColorStop(0, `hsl(${baseHue}, 25%, 4%)`);
-                gradient.addColorStop(0.5, `hsl(${(baseHue + 20) % 360}, 30%, 6%)`);
-                gradient.addColorStop(1, `hsl(${(baseHue + 40) % 360}, 25%, 3%)`);
-
-                ctx.fillStyle = gradient;
+                ctx.fillStyle = `hsl(${baseHue}, 25%, 4%)`;
                 ctx.fillRect(0, 0, w, h);
-
                 for (let layer = CONFIG.WAVE_LAYERS - 1; layer >= 0; layer--) {
-                    drawWaveLayer(layer, w, h, time, baseHue);
+                    const amp = (CONFIG.IDLE_AMPLITUDE * (1 + layer * 0.3)) + (state.bass * CONFIG.AMP_BOOST * (1 - layer / CONFIG.WAVE_LAYERS * 0.3));
+                    const flow = state.time * (0.1 + CONFIG.IDLE_SPEED + (state.bass * 0.8 + state.mid * 0.4) * CONFIG.SPEED_BOOST);
+                    ctx.beginPath(); ctx.moveTo(0, h);
+                    for (let x = 0; x <= w; x += 3) {
+                        const y = h * (0.55 + (layer / CONFIG.WAVE_LAYERS) * 0.3) + Math.sin(x * (0.002 - layer * 0.0003) + flow) * amp;
+                        ctx.lineTo(x, y);
+                    }
+                    ctx.lineTo(w, h); ctx.fillStyle = `hsla(${(baseHue + layer * 35) % 360}, 40%, 20%, 0.3)`; ctx.fill();
                 }
-
                 if (state.high > 0.15) {
-                    const particleAlpha = Math.pow(state.high, 2) * CONFIG.SPARKLE_BOOST;
-                    particles.forEach(p => {
-                        p.update(state.high);
-                        p.draw(ctx, baseHue, Math.min(1, particleAlpha));
-                    });
-                }
-            }
-
-            function drawWaveLayer(layer, w, h, time, baseHue) {
-                const layerRatio = layer / CONFIG.WAVE_LAYERS;
-
-                const idleAmp = CONFIG.IDLE_AMPLITUDE * (1 + layer * 0.3);
-                const idleSpeed = CONFIG.IDLE_SPEED * (1 + layerRatio * 0.2);
-
-                const bassAmp = state.bass * CONFIG.AMP_BOOST * (1 - layerRatio * 0.3);
-                const speedBoost = (state.bass * 0.8 + state.mid * 0.4) * CONFIG.SPEED_BOOST;
-
-                const amplitude = idleAmp + bassAmp;
-
-                const speed = idleSpeed + speedBoost;
-
-                const flowTime = time * (0.1 + speed);
-
-                const baseFreq = 0.002 - layer * 0.0003;
-                const frequency = baseFreq * (1 + state.mid * CONFIG.DETAIL_BOOST);
-
-                const yBase = h * (0.55 + layerRatio * 0.30);
-
-                const hue = (baseHue + layer * 35) % 360;
-                const saturation = 40 + state.mid * 25;
-                const lightness = 15 + layer * 8 + state.high * 8;
-                const alpha = 0.35 - layer * 0.06;
-
-                ctx.beginPath();
-                ctx.moveTo(0, h);
-
-                for (let x = 0; x <= w; x += 3) {
-                    const noiseInfluence = state.isPlaying ? (0.3 + state.bass * 0.7) : 0.1;
-                    const noiseVal = noise(x * 0.001, layer * 0.5, flowTime) * noiseInfluence;
-
-                    const wave1 = Math.sin(x * frequency + flowTime) * amplitude;
-
-                    const wave2 = Math.sin(x * frequency * 2.1 + flowTime * 0.8) * amplitude * 0.4;
-
-                    const wave3 = noiseVal * amplitude * 0.5;
-
-                    const y = yBase + wave1 + wave2 + wave3;
-                    ctx.lineTo(x, y);
-                }
-
-                ctx.lineTo(w, h);
-                ctx.closePath();
-
-                const grad = ctx.createLinearGradient(0, yBase - amplitude, 0, h);
-                grad.addColorStop(0, `hsla(${hue}, ${saturation}%, ${lightness}%, ${alpha})`);
-                grad.addColorStop(0.5, `hsla(${(hue + 15) % 360}, ${saturation}%, ${lightness * 0.7}%, ${alpha * 0.7})`);
-                grad.addColorStop(1, `hsla(${(hue + 30) % 360}, ${saturation}%, ${lightness * 0.4}%, ${alpha * 0.2})`);
-
-                ctx.fillStyle = grad;
-                ctx.fill();
-
-                if (state.bass > 0.4 && layer === 0) {
-                    ctx.shadowColor = `hsla(${hue}, 70%, 50%, ${state.bass * 0.4})`;
-                    ctx.shadowBlur = 25 * state.bass;
-                    ctx.fill();
-                    ctx.shadowBlur = 0;
+                    particles.forEach(p => { p.update(state.high); p.draw(ctx, baseHue, Math.min(1, Math.pow(state.high, 2) * CONFIG.SPARKLE_BOOST)); });
                 }
             }
 
             let animationId = null;
-
             function animate(timestamp) {
-                const deltaTime = timestamp - state.lastTime;
-                state.lastTime = timestamp;
-
-                const timeMultiplier = state.isPlaying ? 1 : 0.2;
-                state.time += deltaTime * 0.001 * timeMultiplier;
-
-                if (state.isPlaying) {
-                    analyzeAudio();
-                    updateMeters();
-                } else {
-                    state.bass = lerp(0.05, state.bass, 0);
-                    state.mid = lerp(0.05, state.mid, 0);
-                    state.high = lerp(0.05, state.high, 0);
-                    state.rawBass = 0;
-                    state.rawMid = 0;
-                    state.rawHigh = 0;
-                    updateMeters();
-                }
-
+                const dt = timestamp - state.lastTime; state.lastTime = timestamp;
+                state.time += dt * 0.001 * (state.isPlaying ? 1 : 0.2);
+                if (state.isPlaying) analyzeAudio();
+                else { state.bass = lerp(0.05, state.bass, 0); state.mid = lerp(0.05, state.mid, 0); state.high = lerp(0.05, state.high, 0); }
                 drawWaves();
-
                 animationId = requestAnimationFrame(animate);
             }
 
-            function startAnimation() {
-                if (!animationId) {
-                    state.lastTime = performance.now();
-                    animationId = requestAnimationFrame(animate);
-                }
-            }
-
-            function stopAnimation() {
-                if (animationId) {
-                    cancelAnimationFrame(animationId);
-                    animationId = null;
-                }
-            }
-
+            function startAnimation() { if (!animationId) { state.lastTime = performance.now(); animationId = requestAnimationFrame(animate); } }
             function updatePlayButton() {
                 const btn = document.getElementById('play-btn');
-                btn.textContent = state.isPlaying ? '⏸' : '▶';
+                btn.innerHTML = state.isPlaying ? '<svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="4" width="4" height="16"></rect><rect x="14" y="4" width="4" height="16"></rect></svg>' : '<svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>';
                 btn.classList.toggle('active', state.isPlaying);
             }
-
-            function togglePlay() {
-                if (!state.audioReady) return;
-
-                if (state.isUserAudio) {
-                    if (audioElement.paused) {
-                        audioElement.play();
-                        state.isPlaying = true;
-                    } else {
-                        audioElement.pause();
-                        state.isPlaying = false;
-                    }
-                } else if (state.currentDemo) {
-                    if (state.isPlaying) {
-                        stopDemoSynth();
-                        state.isPlaying = false;
-                    } else {
-                        createDemoSynth(state.currentDemo);
-                        state.isPlaying = true;
-                    }
-                }
-                updatePlayButton();
-            }
-
-            function hideHints() {
-                const demoHint = document.getElementById('demo-hint');
-                const uploadHint = document.getElementById('upload-hint');
-                if (demoHint) demoHint.classList.add('hidden');
-                if (uploadHint) uploadHint.classList.add('hidden');
-            }
+            function togglePlay() { if (state.audioReady) { if (audioElement.paused) { audioElement.play(); state.isPlaying = true; } else { audioElement.pause(); state.isPlaying = false; } updatePlayButton(); } }
+            function hideHints() { document.querySelectorAll('.hint-label').forEach(el => el.classList.add('hidden')); }
 
             function selectDemo(demoNum) {
                 if (!state.audioReady) return;
-
                 hideHints();
-
-                if (state.currentDemo === demoNum && !state.isUserAudio) {
-                    togglePlay();
-                    return;
-                }
-
-                state.currentDemo = demoNum;
-                state.isUserAudio = false;
-
-                document.querySelectorAll('.demo-btn').forEach(btn => {
-                    btn.classList.toggle('active', parseInt(btn.dataset.demo) === demoNum);
-                });
-
-                const names = {
-                    1: 'Demo 1',
-                    2: 'Demo 2',
-                    3: 'Demo 3'
-                };
-                nowPlaying.textContent = names[demoNum];
-
-                audioElement.pause();
-
-                stopDemoSynth();
-                createDemoSynth(demoNum);
-                state.isPlaying = true;
-                updatePlayButton();
+                state.currentDemo = demoNum; state.isUserAudio = false;
+                document.querySelectorAll('.demo-btn').forEach(btn => btn.classList.toggle('active', parseInt(btn.dataset.demo) === demoNum));
+                audioElement.src = DEMO_TRACKS[demoNum].url; nowPlaying.textContent = DEMO_TRACKS[demoNum].name;
+                if (!audioElement._sourceNode) { const src = audioCtx.createMediaElementSource(audioElement); src.connect(gainNode); audioElement._sourceNode = src; }
+                audioElement.play(); state.isPlaying = true; updatePlayButton();
             }
 
-            function setupEventListeners() {
+            function init() {
+                resizeCanvas();
                 document.getElementById('start-btn').addEventListener('click', () => {
-                    initAudio();
-                    startOverlay.classList.add('hidden');
-                    controls.classList.add('visible');
-                    infoBar.classList.add('visible');
-                    signalMeter.classList.add('visible');
-                    state.audioStarted = true;
-                    state.audioReady = true;
-
-                    nowPlaying.textContent = 'Select a demo or drop a file to play';
-                    startAnimation();
+                    initAudio(); startOverlay.classList.add('hidden'); controls.classList.add('visible'); infoBar.classList.add('visible');
+                    state.audioStarted = true; state.audioReady = true; startAnimation();
                 });
-
                 document.getElementById('play-btn').addEventListener('click', togglePlay);
-
-                document.querySelectorAll('.demo-btn').forEach(btn => {
-                    btn.addEventListener('click', () => {
-                        selectDemo(parseInt(btn.dataset.demo));
-                    });
-                });
-
-                document.getElementById('upload-btn').addEventListener('click', () => {
-                    document.getElementById('file-input').click();
-                });
-
-                document.getElementById('file-input').addEventListener('change', (e) => {
-                    if (e.target.files[0]) {
-                        loadUserAudio(e.target.files[0]);
-                    }
-                });
-
-                document.getElementById('volume-slider').addEventListener('input', (e) => {
-                    state.volume = e.target.value / 100;
-                    if (gainNode) gainNode.gain.value = state.isMuted ? 0 : state.volume;
-                });
-
-                document.getElementById('sensitivity-slider').addEventListener('input', (e) => {
-                    state.sensitivity = e.target.value / 100;
-                });
-
-                document.getElementById('mute-btn').addEventListener('click', () => {
+                document.querySelectorAll('.demo-btn').forEach(btn => btn.addEventListener('click', () => selectDemo(parseInt(btn.dataset.demo))));
+                document.getElementById('upload-btn').addEventListener('click', () => document.getElementById('file-input').click());
+                document.getElementById('file-input').addEventListener('change', (e) => { if (e.target.files[0]) loadUserAudio(e.target.files[0]); });
+                document.getElementById('volume-slider').addEventListener('input', (e) => { state.volume = e.target.value / 100; if (gainNode) gainNode.gain.value = state.isMuted ? 0 : state.volume; });
+                document.getElementById('sensitivity-slider').addEventListener('input', (e) => { state.sensitivity = e.target.value / 100; });
+                const muteBtn = document.getElementById('mute-btn');
+                muteBtn.addEventListener('click', () => {
                     state.isMuted = !state.isMuted;
                     if (gainNode) gainNode.gain.value = state.isMuted ? 0 : state.volume;
-                    document.getElementById('mute-btn').textContent = state.isMuted ? '✕' : '♪';
+                    muteBtn.innerHTML = state.isMuted ? '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><line x1="23" y1="9" x2="17" y2="15"></line><line x1="17" y1="9" x2="23" y2="15"></line></svg>' : '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path><path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path></svg>';
                 });
+                window.addEventListener('resize', resizeCanvas);
+                audioElement.addEventListener('ended', () => { state.isPlaying = false; updatePlayButton(); });
 
                 let dragCounter = 0;
+                const dragOverlay = document.getElementById('drag-overlay');
 
                 document.addEventListener('dragenter', (e) => {
                     e.preventDefault();
                     dragCounter++;
-                    if (state.audioStarted) {
-                        dragOverlay.classList.add('visible');
-                    }
+                    dragOverlay.classList.add('visible');
                 });
 
                 document.addEventListener('dragover', (e) => {
@@ -1284,43 +719,24 @@
                     dragCounter = 0;
                     dragOverlay.classList.remove('visible');
 
-                    if (!state.audioStarted) return;
-
                     const file = e.dataTransfer.files[0];
                     if (file && file.type.startsWith('audio/')) {
+                        if (!state.audioStarted) {
+                            initAudio();
+                            startOverlay.classList.add('hidden');
+                            controls.classList.add('visible');
+                            infoBar.classList.add('visible');
+                            state.audioStarted = true;
+                            state.audioReady = true;
+                            startAnimation();
+                        }
                         loadUserAudio(file);
                     } else if (file) {
                         alert('Unsupported format. Please use MP3, WAV, or OGG files.');
                     }
                 });
-
-                window.addEventListener('resize', resizeCanvas);
-
-                document.addEventListener('visibilitychange', () => {
-                    if (document.hidden) {
-                        stopAnimation();
-                    } else {
-                        startAnimation();
-                    }
-                });
-
-                audioElement.addEventListener('ended', () => {
-                    state.isPlaying = false;
-                    updatePlayButton();
-                });
             }
-
-            function init() {
-                resizeCanvas();
-                setupEventListeners();
-                startAnimation();
-            }
-
-            if (document.readyState === 'loading') {
-                document.addEventListener('DOMContentLoaded', init);
-            } else {
-                init();
-            }
+            if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init); else init();
         })();
     </script>
 </body>
